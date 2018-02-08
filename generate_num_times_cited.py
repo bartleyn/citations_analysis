@@ -78,7 +78,7 @@ for year in sorted(citing_year_dict):
     count_in_year = 0
     for doi in citing_year_dict[year]:
         if doi in cited_dict:
-            count_in_year += len([x for x in cited_dict[doi] if int(x) == int(year)])
+            count_in_year += len([x for x in cited_dict[doi]])
 
     print(year, count_in_year)
 
@@ -89,7 +89,8 @@ with open('output/new_citations_per_year.csv', 'a') as fp:
         count_in_year = 0
         for doi in citing_year_dict[year]:
             if doi in cited_dict:
-                count_in_year += len([x for x in cited_dict[doi] if int(x) == int(year)])
+                #count_in_year += len([x for x in cited_dict[doi] if int(x) == int(year)])
+                count_in_year += len([x for x in cited_dict[doi]])
         csv_writer.writerow([year, sys.argv[1][:-4], count_in_year])
 
 
