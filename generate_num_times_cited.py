@@ -15,17 +15,16 @@ cited_dict = {}
 with open('output/new_citing_cited.csv', 'r') as fp:
     csv_reader = csv.reader(fp)
     for row in csv_reader:
-        #for doi in eval(row[2]):
-        #    try:
-        #        cited_dict[doi] += [(row[1], row[0])]
-        #    except:
-        #        cited_dict[doi] = [(row[1], row[0])]
         try:
-            #cited_dict[row[2]] += [(row[1], row[0])]
-            cited_dict[row[2]] += [row[0]]
+            # used for measuring inbound citations
+            #cited_dict[row[2]] += [row[0]]
+            # used for measuring outbound citations 
+            cited_dict[row[1]] += [row[0]]
         except:
-            #cited_dict[row[2]] = [(row[1], row[0])]
-            cited_dict[row[2]] = [row[0]]
+            # used for measuring inbound citations
+            #cited_dict[row[2]] = [row[0]]
+            # used for measuring outbound citations
+            cited_dict[row[1]] = [row[0]]
 
     
 
@@ -82,7 +81,7 @@ for year in sorted(citing_year_dict):
 
     print(year, count_in_year)
 
-with open('output/new_citations_per_year.csv', 'a') as fp:
+with open('output/outgoing_citations_per_year.csv', 'a') as fp:
     csv_writer = csv.writer(fp)
     csv_writer.writerow(['Year', 'Journal', 'Count'])
     for year in sorted(citing_year_dict):
@@ -90,6 +89,7 @@ with open('output/new_citations_per_year.csv', 'a') as fp:
         for doi in citing_year_dict[year]:
             if doi in cited_dict:
                 #count_in_year += len([x for x in cited_dict[doi] if int(x) == int(year)])
+                # count the number of citations
                 count_in_year += len([x for x in cited_dict[doi]])
         csv_writer.writerow([year, sys.argv[1][:-4], count_in_year])
 
