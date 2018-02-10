@@ -53,13 +53,21 @@ for article in tree.iterfind('article'):
     if pubdate not in year_count_dict:
         year_count_dict[pubdate] = 0
         co_author_tracker[pubdate] = {}
+    
     if pubdate > cur_pubdate:
         cur_pubdate = pubdate
         author_name_dict = {}
     
+    #year_count_dict[pubdate] += 1
+    if article.attrib['doi'] in citing_dict.keys():
+        year_count_dict[pubdate] = 1
+    
     citing_year_dict[article.attrib['doi']] = pubdate
     ctr += 1
 print("total number of articles: {}".format(ctr))
+
+print(year_count_dict)
+raise Exception
 
 with open('output/new_citing_cited.csv', 'a') as fp:
     csv_writer = csv.writer(fp)
